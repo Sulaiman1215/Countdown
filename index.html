@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1122">
+  <title>Don't Be Awasharam</title>
+  <style>
+    :root { --ink:#f5e9ef; --gold:#e8c28b; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; overflow-x:hidden; color:var(--ink); font-family:"Segoe UI",system-ui,sans-serif; background:linear-gradient(180deg,#080d1c,#14152a 48%,#211a30); }
+    .sky { min-height:100vh; display:grid; place-items:center; padding:25px 16px; position:relative; isolation:isolate; background:radial-gradient(ellipse at 50% 10%,#3c3157a8,transparent 45%),radial-gradient(ellipse at 12% 80%,#48233e66,transparent 45%); }
+    .sky::after { content:""; position:absolute; inset:0; z-index:-1; opacity:.68; background-image:radial-gradient(#ffd6e7 1.1px,transparent 1.8px),radial-gradient(#fff 1px,transparent 1.5px); background-size:73px 73px,113px 113px; }
+    .petals { position:fixed; inset:0; overflow:hidden; pointer-events:none; }
+    .petal { position:absolute; top:-12vh; width:14px; height:10px; border-radius:80% 0 80% 0; background:linear-gradient(135deg,#ffe0ee,#e38cb8 70%); box-shadow:0 0 10px #ef9db655; animation:fall var(--t) linear infinite; animation-delay:var(--d); }
+    .card { width:min(100%,480px); min-height:510px; padding:clamp(30px,6vw,48px) clamp(17px,6vw,42px) 30px; position:relative; overflow:hidden; text-align:center; border:1px solid #e9b5d064; border-radius:4px; background:linear-gradient(145deg,#25243ce8,#171b31f2); box-shadow:0 24px 75px #0009,0 0 40px #df8eb21c,inset 0 1px #ffffff19; backdrop-filter:blur(12px); }
+    .card::before { content:""; position:absolute; inset:12px; border:1px solid #dba8c34d; pointer-events:none; }
+    .eyebrow { margin:0 0 16px; color:var(--gold); font-size:.68rem; font-weight:700; letter-spacing:.24em; text-transform:uppercase; }
+    h1 { margin:0; color:#ffe1ed; font:500 clamp(2.2rem,10vw,4.25rem)/1.02 Georgia,serif; letter-spacing:-.065em; text-shadow:0 0 28px #f2a2c344; }
+    .lead { max-width:370px; min-height:3.3em; margin:17px auto 22px; color:#e2c6d6; font-size:clamp(.96rem,3.5vw,1.08rem); line-height:1.5; }
+    .countdown { display:grid; grid-template-columns:repeat(4,1fr); gap:9px; margin:auto; }
+    .time { padding:14px 3px 12px; border-block:1px solid #e4aac46b; background:#f5a4c10c; }
+    .time b { display:block; color:#ffb4d0; font:400 clamp(1.6rem,7vw,2.75rem)/1.05 Georgia,serif; font-variant-numeric:tabular-nums; text-shadow:0 0 18px #f189b066; }
+    .time span { display:block; margin-top:6px; color:#d7b4ca; font-size:.58rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .ribbon { margin:22px auto 15px; max-width:370px; color:#d6bbcc; font-size:.82rem; line-height:1.5; }
+    .ribbon strong { color:#f3c991; }
+    .tease { appearance:none; cursor:pointer; padding:13px 23px; border:1px solid #f2aac6; border-radius:2px; color:#22182a; background:linear-gradient(135deg,#ffbdd4,#e995b8); box-shadow:4px 4px 0 #65415b,0 0 24px #ef9db133; font:700 1rem/1.2 inherit; transition:transform .25s ease,background .2s; }
+    .tease:focus-visible { outline:3px solid #d98fb0; outline-offset:3px; }
+    .surprise { display:inline-block; padding:13px 23px; border:1px solid #f2aac6; border-radius:2px; color:#22182a; background:linear-gradient(135deg,#ffd0df,#e99bbf); box-shadow:4px 4px 0 #65415b,0 0 28px #e789a266; font-weight:700; text-decoration:none; transition:transform .2s,background .2s; }
+    .surprise:hover,.surprise:focus-visible { background:#ffe0eb; outline:3px solid #d98fb0; outline-offset:3px; transform:translate(-2px,-2px); }
+    .hint { min-height:1.5em; margin:14px 0 0; color:#e9a8c4; font-size:.83rem; }
+    .toast[hidden] { display:none; }
+    .toast { position:fixed; z-index:9; left:50%; bottom:24px; max-width:calc(100% - 32px); padding:13px 18px; border:1px solid #f4b6d0; color:#ffe6f0; background:#30203fd9; box-shadow:0 10px 30px #0009; font-weight:700; text-align:center; transform:translateX(-50%); animation:popup .22s ease-out; }
+    @keyframes fall { to { top:112vh; transform:translateX(var(--drift)) rotate(420deg); } }
+    @keyframes popup { from { opacity:0; transform:translate(-50%,12px); } }
+    @media (max-width:480px) {
+      .sky { align-items:start; padding:16px 10px; }
+      .card { min-height:0; padding:30px 16px 28px; }
+      h1 { font-size:clamp(2rem,12vw,3.1rem); }
+      .lead { margin:15px auto 18px; font-size:.96rem; }
+      .countdown { gap:5px; }
+      .time { padding:11px 2px 10px; }
+      .time b { font-size:clamp(1.35rem,7vw,2rem); }
+      .time span { font-size:.5rem; letter-spacing:.08em; }
+      .ribbon { margin:18px auto 14px; }
+      .toast { bottom:14px; font-size:.9rem; }
+    }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <main class="sky">
+    <div class="petals" id="petals" aria-hidden="true"></div>
+    <section class="card">
+      <p class="eyebrow">A tiny bit of patience, please</p>
+      <h1>Why are you in such a hurry?</h1>
+      <p class="lead" id="message" aria-live="polite">Excuse me, Gappiya! Who gave you permission to open this early? 😂</p>
+      <div class="countdown" aria-label="Time remaining until the surprise opens">
+        <div class="time"><b id="days">--</b><span>days</span></div>
+        <div class="time"><b id="hours">--</b><span>hours</span></div>
+        <div class="time"><b id="minutes">--</b><span>minutes</span></div>
+        <div class="time"><b id="seconds">--</b><span>seconds</span></div>
+      </div>
+      <p class="ribbon">The door opens on <strong>29 November 2026 · 12:00 AM</strong><br>Colombo time</p>
+      <button class="tease" id="tease" type="button">Okay, just a tiny peek? ✨</button>
+      <p class="hint" id="hint" aria-live="polite">Try catching it… if you can. 😈</p>
+      <div id="opened" class="lead" hidden>
+        FINALLYYYY! 😭 The birthday surprise is officially unlocked. Happy Birthday, Gappiya! 🌸🎂
+        <br><br>
+        <a class="surprise" id="websiteLink" href="#" target="_blank" rel="noopener">
+          Open Your Birthday Surprise →
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+    Catch me if you can, Gappiya! 😂
+  </div>
+
+  <script>
+    // Paste your other website's full address between the quotes below.
+    const WEBSITE_URL = 'https://your-website-link.com';
+    const OPEN_AT = Date.UTC(2026, 10, 28, 18, 30, 0); // 29 Nov 2026, 12:00 AM Colombo time
+    const $ = id => document.getElementById(id);
+    const messages = [
+      'Excuse me, Gappiya! Who gave you permission to open this early? 😂',
+      'Patience, Gappiya. Patience! Awasharam 🌸',
+      'Gappiyaaaa! 😂 Even if you click 100 times. Im not opening this early. Go do something useful!',
+      'Nice try! Come back when the clock says 12. 👀',
+      "Okay okay, you're excited. But no cheating! 🤭"
+    ];
+    let toastTimer;
+    let messageIndex = 0;
+
+    $('websiteLink').href = WEBSITE_URL;
+
+    for (let i = 0; i < 30; i++) {
+      const petal = document.createElement('i');
+      petal.className = 'petal';
+      petal.style.cssText = `left:${Math.random() * 100}%;--t:${7 + Math.random() * 8}s;--d:-${Math.random() * 14}s;--drift:${-110 + Math.random() * 220}px`;
+      $('petals').append(petal);
+    }
+
+    function pad(number) {
+      return String(number).padStart(2, '0');
+    }
+
+    function tick() {
+      const left = Math.max(0, OPEN_AT - Date.now());
+      const total = Math.floor(left / 1000);
+
+      $('days').textContent = Math.floor(total / 86400);
+      $('hours').textContent = pad(Math.floor(total % 86400 / 3600));
+      $('minutes').textContent = pad(Math.floor(total % 3600 / 60));
+      $('seconds').textContent = pad(total % 60);
+
+      if (!left) {
+        $('tease').hidden = true;
+        $('hint').hidden = true;
+        $('opened').hidden = false;
+      }
+    }
+
+    function rotateMessage() {
+      if (Date.now() >= OPEN_AT) return;
+      messageIndex = (messageIndex + 1) % messages.length;
+      $('message').textContent = messages[messageIndex];
+    }
+
+    function popup() {
+      const toast = $('toast');
+      toast.hidden = false;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toast.hidden = true; }, 1800);
+    }
+
+    function runAway() {
+      const button = $('tease');
+      const card = document.querySelector('.card');
+      const maxX = Math.max(18, (card.clientWidth - button.offsetWidth) / 2 - 12);
+      const maxY = innerWidth <= 480 ? 22 : 42;
+      const x = (Math.random() > .5 ? 1 : -1) * (12 + Math.random() * maxX);
+      const y = (Math.random() > .5 ? 1 : -1) * (8 + Math.random() * maxY);
+
+      button.style.transform = `translate(${x}px, ${y}px)`;
+      popup();
+    }
+
+    $('tease').addEventListener('pointerenter', runAway);
+    $('tease').addEventListener('pointerdown', event => {
+      event.preventDefault();
+      runAway();
+    });
+    $('tease').addEventListener('click', runAway);
+    $('tease').addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        runAway();
+      }
+    });
+
+    tick();
+    setInterval(tick, 1000);
+    setInterval(rotateMessage, 2000);
+  </script>
+</body>
+</html>
